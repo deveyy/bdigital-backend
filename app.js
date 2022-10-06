@@ -14,16 +14,21 @@ const mongose = require('mongoose');
 const app = express();
 
 //db
-const url_db = process.env.DATABASE;
+const URL_DB = process.env.DATABASE;
 
-mongose.connect(url_db, {
-    useNewUrlParser: true,
-    // bug MongoParseError: option usecreateindex is not supported is ver mongosee > 6
-   // useCreateIndex: true
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log('DB Connected');
-})
+try {
+    mongose.connect(URL_DB, {
+        useNewUrlParser: true,
+        // bug MongoParseError: option usecreateindex is not supported is ver mongosee > 6
+       // useCreateIndex: true
+        useUnifiedTopology: true,
+    }).then(() => {
+        console.log('Database Connected To MongoDB!!');
+    })
+} catch (error) {
+    console.log(error, "Server error, try again");
+}
+
 
 
 //routes
