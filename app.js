@@ -10,6 +10,14 @@ require('dotenv').config();
 // mongose
 const mongose = require('mongoose');
 
+// config bunyan
+const bunyan = require('bunyan');
+const log = bunyan.createLogger({
+    name: 'app-bdigital',
+    serializers: bunyan.stdSerializers,
+    level: "debug"
+});
+
 // app
 const app = express();
 
@@ -23,10 +31,10 @@ try {
        // useCreateIndex: true
         useUnifiedTopology: true,
     }).then(() => {
-        console.log('Database Connected To MongoDB!!');
+        log.info('Database Connected To MongoDB!!');
     })
 } catch (error) {
-    console.log(error, "Server error, try again");
+        log.info(error, "Server error, try again");
 }
 
 
@@ -36,9 +44,9 @@ app.get('/', (req, res) => {
     res.send('Hi Bdigital Bot Server start')
 })
 
-const port = process.env.PRORT || 8000
+const port = process.env.PORT || 8000
 
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    log.info(`Server is running on port ${port}`);
 });
