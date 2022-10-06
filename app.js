@@ -7,6 +7,7 @@
 
 const express = require('express');
 require('dotenv').config();
+
 // mongose
 const mongose = require('mongoose');
 
@@ -21,8 +22,13 @@ const log = bunyan.createLogger({
 // app
 const app = express();
 
+const port = process.env.PORT || 8000
+
 //db
 const URL_DB = process.env.DATABASE;
+
+// import routes
+const userRoutes = require('./routes/user');
 
 try {
     mongose.connect(URL_DB, {
@@ -37,14 +43,8 @@ try {
         log.info(error, "Server error, try again");
 }
 
-
-
-//routes
-app.get('/', (req, res) => {
-    res.send('Hi Bdigital Bot Server start')
-})
-
-const port = process.env.PORT || 8000
+// routes middleware
+app.use("/api/v1", userRoutes);
 
 
 app.listen(port, () => {
