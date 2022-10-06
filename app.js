@@ -5,11 +5,28 @@
  * @email thiendinh.dev@gmail.com
  */
 
-const express = require('express')
+const express = require('express');
+require('dotenv').config();
+// mongose
+const mongose = require('mongoose');
+
+// app
 const app = express();
 
-require('dotenv').config()
+//db
+const url_db = process.env.DATABASE;
 
+mongose.connect(url_db, {
+    useNewUrlParser: true,
+    // bug MongoParseError: option usecreateindex is not supported is ver mongosee > 6
+   // useCreateIndex: true
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log('DB Connected');
+})
+
+
+//routes
 app.get('/', (req, res) => {
     res.send('Hi Bdigital Bot Server start')
 })
