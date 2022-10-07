@@ -6,47 +6,21 @@
  */
 
 const express = require('express');
-require('dotenv').config();
-// mongose
-const mongose = require('mongoose');
-
-// config bunyan
-const bunyan = require('bunyan');
-const log = bunyan.createLogger({
-    name: 'app-bdigital',
-    serializers: bunyan.stdSerializers,
-    level: "debug"
-});
-
-// app
 const app = express();
+require('./db');
 
-//db
-const URL_DB = process.env.DATABASE;
-
-try {
-    mongose.connect(URL_DB, {
-        useNewUrlParser: true,
-        // bug MongoParseError: option usecreateindex is not supported is ver mongosee > 6
-       // useCreateIndex: true
-        useUnifiedTopology: true,
-    }).then(() => {
-        log.info('Database Connected To MongoDB!!');
-    })
-} catch (error) {
-        log.info(error, "Server error, try again");
-}
+const userRouter = require('./routes/user');
 
 
+// MVC - Modal controller
+app.use(express.json());
+app.use('/api/user',userRouter);
 
-//routes
-app.get('/', (req, res) => {
-    res.send('Hi Bdigital Bot Server start')
+
+app.get('/about', (req, res) => {
+    res.send("<h1>About</h1>")
 })
 
-const port = process.env.PORT || 8000
-
-
-app.listen(port, () => {
-    log.info(`Server is running on port ${port}`);
-});
+app.listen(8000, () => {
+    console.log('the port is listening on port 8000')
+})
