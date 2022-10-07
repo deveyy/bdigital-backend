@@ -6,18 +6,25 @@
  */
 
 const express = require('express');
-const app = express();
+require("express-async-errors");
+const morgan = require("morgan");
+const { errorHandler } = require("./middlewares/error");
+
+require("dotenv").config();
+
+//connect db
 require('./db');
 
 const userRouter = require('./routes/user');
+
+const app = express();
 app.use(express.json());
+app.use(morgan("dev"));
 app.use('/api/user',userRouter);
 
+app.use(errorHandler);
 
-app.get('/about', (req, res) => {
-    res.send("<h1>About</h1>")
-})
 
-app.listen(8000, () => {
-    console.log('the port is listening on port 8000')
+app.listen(process.env.PORT, () => {
+    console.log('The port is listening on port 8000')
 })
