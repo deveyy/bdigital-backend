@@ -72,7 +72,7 @@ exports.verifyEmail = async (req, res) => {
   transport.sendMail({
     from: "verification@bdigital.com",
     to: user.email,
-    subject: "Welcome Email",
+    subject: "Email is Verified",
     html: "<h1>Welcome to bdigital.</h1>",
   });
   res.json({ message: "Your email is verified." });
