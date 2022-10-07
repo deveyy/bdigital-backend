@@ -1,8 +1,11 @@
 const User = require("../models/user");
 const EmailVerificationToken = require("../models/emailVerificationToken");
+const PasswordResetToken = require("../models/passwordResetToken");
 const { isValidObjectId } = require("mongoose");
 const { generateOTP, generateMailTransporter } = require("../utils/mail");
-const { sendError } = require("../utils/helper");
+const { sendError, generateRandomByte } = require("../utils/helper");
+
+require('dotenv').config();
 
 exports.create = async (req, res) => {
   const { name, email, password } = req.body;
@@ -123,7 +126,7 @@ exports.resendEmailVerificationToken = async (req, res) => {
   });
 
   res.json({
-    message: "New OTP has been sent to your registered email accout.",
+    message: "New OTP has been sent to your registered email account.",
   });
 };
 
@@ -135,6 +138,7 @@ exports.forgetPassword = async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) return sendError(res, "User not found!", 404);
 
+  // check already Token
   const alreadyHasToken = await PasswordResetToken.findOne({ owner: user._id });
   if (alreadyHasToken)
     return sendError(
@@ -148,10 +152,11 @@ exports.forgetPassword = async (req, res) => {
     token,
   });
   await newPasswordResetToken.save();
+  const CLIENT_URL = process.env.CLIENT_URL;
 
-  const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user._id}`;
+  const resetPasswordUrl = `${CLIENT_URL}/reset-password?token=${token}&id=${user._id}`;
 
-  const transport = generateMailTransporter();
+  const transport = await generateMailTransporter();
 
   transport.sendMail({
     from: "security@reviewapp.com",
