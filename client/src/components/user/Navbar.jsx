@@ -1,12 +1,13 @@
 import React from "react"
-import Logo from './logo.png'
+import Logo from '../img/logo.png';
 import { BsFillSunFill } from 'react-icons/bs'
+import Container from "../Container"
 
 
 export default function Navbar() {
     return (
-      <div className="bg-secondary">
-            <div className="max-w-screen-lg mx-auto p-2">
+      <div className="bg-secondary drop-shadow-sm shadow-gray-50">
+            <Container className="max-w-screen-lg mx-auto p-2">
                 <div className="flex justify-between items-center">
                     <img src={Logo}  alt="logo" className="h-10"/>
                     <ul>
@@ -17,7 +18,7 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </div>
-            </div>
+            </Container>
       </div>
     )
 }
