@@ -3,6 +3,8 @@ import Container from '../Container'
 import FormInput from '../form/FormInput'
 import Submit from '../form/Submit'
 import Title from '../form/Title'
+import CustomLink from '../link/CustomLink'
+
 
 export default function Signin() {
   return (
@@ -15,15 +17,9 @@ export default function Signin() {
                 <Submit value="Sign in" />
 
                 <div className="mt-2 flex justify-between">
-                     <a href="/" className="font-medium 
-                      hover:text-indigo-200">
-                     Forgot password?
-                    </a>
-                    <a href="/" className="font-medium 
-                      hover:text-indigo-200">
-                     Sign up
-                    </a>
-              </div>
+                  <CustomLink to="/admin/auth/forget-password">Forget password?</CustomLink>
+                  <CustomLink to="/admin/auth/signup">Sign up</CustomLink>
+               </div>
             </form>
         </Container>
     </div>
