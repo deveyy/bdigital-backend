@@ -1,7 +1,7 @@
 # bdigital restful API Backend
 
 ## Features
-
+ - User
 
 ## Main tools
 - Node.js
@@ -9,6 +9,9 @@
 - Mongoose
 - Express
 
+## Email
+- mailtrap.io
+- nodemailer
 
 ## Local Installation
 
