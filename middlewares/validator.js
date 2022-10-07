@@ -1,5 +1,6 @@
 const { check, validationResult } = require("express-validator");
 
+//User
 exports.userValidator = [
     // name
     check('name')
