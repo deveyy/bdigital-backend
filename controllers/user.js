@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const EmailVerificationToken = require("../middlewares/emailVerificationToken");
+const EmailVerificationToken = require("../models/emailVerificationToken");
 const nodemailer = require('nodemailer');
 
 require('dotenv').config();
@@ -80,6 +80,40 @@ const verifyEmail = async (req, res) => {
       error: "Token not found!"
    });
    
+   const isMatched = await token.compaireToken(OTP);
+   if(!isMatched) return
+   res.json({
+      error: "Please submit a valid OTP!"
+   });
+
+   user.isVerified = true;
+   await user.save();
+
+   EmailVerificationToken.findByIdAndDelete(token._id)
+
+     // send that otp to our user
+     var transport = nodemailer.createTransport({
+      host: process.env.host,
+      port: process.env.port,
+      auth: {
+        user: process.env.user,
+        pass: process.env.password
+      }
+    });
+    // send mail
+   transport.sendMail({
+      from: 'biosweb@asifboot.com',
+      to: user.email,
+      subject: 'Email Verified',
+      html: `
+         <p>Welcome to bdigital</p>
+         <h1>${OTP}</h1>
+      `
+   });
+
+   res.json({
+      message: "Your email is verified!"
+   });
 }
 
 module.exports =  {create, verifyEmail};
