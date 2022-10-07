@@ -139,12 +139,12 @@ exports.forgetPassword = async (req, res) => {
   if (!user) return sendError(res, "User not found!", 404);
 
   // check already Token
-  // const alreadyHasToken = await PasswordResetToken.findOne({ owner: user._id });
-  // if (alreadyHasToken)
-  //   return sendError(
-  //     res,
-  //     "Only after one hour you can request for another token!"
-  //   );
+  const alreadyHasToken = await PasswordResetToken.findOne({ owner: user._id });
+  if (alreadyHasToken)
+    return sendError(
+      res,
+      "Only after one hour you can request for another token!"
+    );
 
   const token = await generateRandomByte();
   const newPasswordResetToken = await PasswordResetToken({
