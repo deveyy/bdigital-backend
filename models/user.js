@@ -1,5 +1,13 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
+
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = mongoose.Schema({
   name: {
@@ -37,4 +45,4 @@ userSchema.methods.comparePassword = async function (password) {
   return result;
 };
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

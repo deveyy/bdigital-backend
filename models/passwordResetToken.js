@@ -1,7 +1,14 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
 
-const passwordReserTokenSchema = mongoose.Schema({
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+
+const passwordResetTokenSchema = mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -18,7 +25,7 @@ const passwordReserTokenSchema = mongoose.Schema({
   },
 });
 
-passwordReserTokenSchema.pre("save", async function (next) {
+passwordResetTokenSchema.pre("save", async function (next) {
   if (this.isModified("token")) {
     this.token = await bcrypt.hash(this.token, 10);
   }
@@ -26,9 +33,9 @@ passwordReserTokenSchema.pre("save", async function (next) {
   next();
 });
 
-passwordReserTokenSchema.methods.compareToken = async function (token) {
+passwordResetTokenSchema.methods.compareToken = async function (token) {
   const result = await bcrypt.compare(token, this.token);
   return result;
 };
 
-module.exports = mongoose.model("PasswordResetToken", passwordReserTokenSchema);
+export default mongoose.model("PasswordResetToken", passwordResetTokenSchema);

@@ -1,5 +1,12 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
+
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const emailVerificationTokenSchema = mongoose.Schema({
   owner: {
@@ -31,7 +38,7 @@ emailVerificationTokenSchema.methods.compaireToken = async function (token) {
   return result;
 };
 
-module.exports = mongoose.model(
+export default mongoose.model(
   "EmailVerificationToken",
   emailVerificationTokenSchema
 );
