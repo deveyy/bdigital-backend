@@ -38,6 +38,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 app.use('/api/user',userRouter);
 
+app.use(errorHandler);
 
 //port
 const port = process.env.PORT || 5000
