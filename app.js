@@ -10,7 +10,6 @@ const app = express();
 require('./db');
 
 const userRouter = require('./routes/user');
-
 app.use(express.json());
 app.use('/api/user',userRouter);
 
