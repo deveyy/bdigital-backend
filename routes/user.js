@@ -16,11 +16,19 @@ const {
   signInValidator
 } = require("../middlewares/validator");
 
+const rateLimiter = require('express-rate-limit');
+
+const apiLimiter = rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+});
+
 const router = express.Router();
 
-router.post("/sign-in", signInValidator, validate, signIn);
+router.post("/sign-in", signInValidator, validate, signIn, apiLimiter);
 
-router.post("/create", userValidator, validate, create);
+router.post("/create", userValidator, validate, create, apiLimiter);
 router.post("/verify-email", verifyEmail);
 router.post("/resend-email-verification-token", resendEmailVerificationToken);
 router.post("/forget-password", forgetPassword);

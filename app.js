@@ -7,7 +7,13 @@
 
 const express = require('express');
 require("express-async-errors");
+
 const morgan = require("morgan");
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const mongoSanitize = require('express-mongo-sanitize');
+const cors = require('cors');
+
 const { errorHandler } = require("./middlewares/error");
 
 require("dotenv").config();
@@ -19,7 +25,14 @@ const userRouter = require('./routes/user');
 
 const app = express();
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(helmet());
+app.use(xss());
+app.use(cors());
+app.use(mongoSanitize());
+
+if (process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'))
+}
 app.use('/api/user',userRouter);
 
 app.use(errorHandler);

@@ -5,6 +5,7 @@ const PasswordResetToken = require("../models/passwordResetToken");
 const { isValidObjectId } = require("mongoose");
 const { generateOTP, generateMailTransporter } = require("../utils/mail");
 const { sendError, generateRandomByte } = require("../utils/helper");
+const { StatusCodes } = require('http-status-codes');
 
 require('dotenv').config();
 
@@ -79,7 +80,7 @@ exports.verifyEmail = async (req, res) => {
     subject: "Email is Verified",
     html: "<h1>Welcome to bdigital.</h1>",
   });
-  res.json({ message: "Your email is verified." });
+  res.status(StatusCodes.CREATED).json({ message: "Your email is verified." });
 };
 
 exports.resendEmailVerificationToken = async (req, res) => {
@@ -170,7 +171,7 @@ exports.forgetPassword = async (req, res) => {
     `,
   });
 
-  res.json({ message: "Link sent to your email!" });
+  res.status(StatusCodes.OK).json({ message: "Link sent to your email!" });
 };
 
 exports.sendResetPasswordTokenStatus = (req, res) => {
@@ -206,7 +207,7 @@ exports.resetPassword = async (req, res) => {
     `,
   });
 
-  res.json({
+  res.status(StatusCodes.OK).json({
     message: "Password reset successfully, now you can use new password.",
   });
 };
@@ -224,5 +225,5 @@ exports.signIn = async (req, res, next) => {
 
   const jwtToken = jwt.sign({ userId: _id }, process.env.JWT_SECRET);
 
-  res.json({ user: { id: _id, name, email, token: jwtToken } });
+  res.status(StatusCodes.OK).json({ user: { id: _id, name, email, token: jwtToken } });
 };
