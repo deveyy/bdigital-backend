@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "bdigital-backend Node Restful API",
   "main": "index.js",
+<<<<<<< HEAD
   "type": "module",
+=======
+  "type": "module", 
+>>>>>>> 76523488b98f9eb7aa447e8745c8d2eb56dedb5c
   "scripts": {
     "install-server": "npm install",
     "install-dependencies": " npm run install-client && npm run install-server ",
