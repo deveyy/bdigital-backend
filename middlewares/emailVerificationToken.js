@@ -1,4 +1,5 @@
 const { default: mongoose } = require("mongoose");
+const bcrypt = require('bcrypt');
 
 const emailValidationTokenSchema = mongoose.Schema({
     owner: {
@@ -19,8 +20,7 @@ const emailValidationTokenSchema = mongoose.Schema({
 
 emailValidationTokenSchema.pre('save', async function(next) {
     if(this.isModified('token')) {
-     const hash =  await bcrypt.hash(this.token, 10);
-        this.token = hash;
+        this.token =  await bcrypt.hash(this.token, 10);
     }
     next();
 });
