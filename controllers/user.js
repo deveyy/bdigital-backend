@@ -1,14 +1,23 @@
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const EmailVerificationToken = require("../models/emailVerificationToken");
-const PasswordResetToken = require("../models/passwordResetToken");
-const { isValidObjectId } = require("mongoose");
-const { generateOTP, generateMailTransporter } = require("../utils/mail");
-const { sendError, generateRandomByte } = require("../utils/helper");
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
 
-require('dotenv').config();
+import jwt from "jsonwebtoken";
+import { isValidObjectId } from "mongoose";
+import User from "../models/user.js";
+import { StatusCodes } from 'http-status-codes';
+import EmailVerificationToken from "../models/emailVerificationToken.js";
+import PasswordResetToken  from "../models/passwordResetToken.js";
+import { generateOTP, generateMailTransporter } from "../utils/mail.js";
+import { sendError, generateRandomByte } from "../utils/helper.js";
+import dotenv from 'dotenv'
 
-exports.create = async (req, res) => {
+dotenv.config();
+
+const create = async (req, res) => {
   const { name, email, password } = req.body;
 
   const oldUser = await User.findOne({ email });
@@ -50,7 +59,7 @@ exports.create = async (req, res) => {
   });
 };
 
-exports.verifyEmail = async (req, res) => {
+const verifyEmail = async (req, res) => {
   const { userId, OTP } = req.body;
 
   if (!isValidObjectId(userId)) return res.json({ error: "Invalid user!" });
@@ -79,10 +88,10 @@ exports.verifyEmail = async (req, res) => {
     subject: "Email is Verified",
     html: "<h1>Welcome to bdigital.</h1>",
   });
-  res.json({ message: "Your email is verified." });
+  res.status(StatusCodes.CREATED).json({ message: "Your email is verified." });
 };
 
-exports.resendEmailVerificationToken = async (req, res) => {
+const resendEmailVerificationToken = async (req, res) => {
   const { userId } = req.body;
 
   const user = await User.findById(userId);
@@ -131,7 +140,7 @@ exports.resendEmailVerificationToken = async (req, res) => {
   });
 };
 
-exports.forgetPassword = async (req, res) => {
+const forgetPassword = async (req, res) => {
   const { email } = req.body;
 
   if (!email) return sendError(res, "email is missing!");
@@ -170,14 +179,14 @@ exports.forgetPassword = async (req, res) => {
     `,
   });
 
-  res.json({ message: "Link sent to your email!" });
+  res.status(StatusCodes.OK).json({ message: "Link sent to your email!" });
 };
 
-exports.sendResetPasswordTokenStatus = (req, res) => {
+const sendResetPasswordTokenStatus = (req, res) => {
   res.json({ valid: true });
 };
 
-exports.resetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   const { newPassword, userId } = req.body;
 
   const user = await User.findById(userId);
@@ -206,12 +215,12 @@ exports.resetPassword = async (req, res) => {
     `,
   });
 
-  res.json({
+  res.status(StatusCodes.OK).json({
     message: "Password reset successfully, now you can use new password.",
   });
 };
 
-exports.signIn = async (req, res, next) => {
+const signIn = async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -224,5 +233,15 @@ exports.signIn = async (req, res, next) => {
 
   const jwtToken = jwt.sign({ userId: _id }, process.env.JWT_SECRET);
 
-  res.json({ user: { id: _id, name, email, token: jwtToken } });
+  res.status(StatusCodes.OK).json({ user: { id: _id, name, email, token: jwtToken } });
 };
+
+export { 
+  create,
+  verifyEmail,
+  resendEmailVerificationToken,
+  forgetPassword,
+  sendResetPasswordTokenStatus,
+  resetPassword,
+  signIn
+}

@@ -2,12 +2,14 @@
 
 ## Features
  - User
+ - Send Email
 
 ## Main tools
 - Node.js
 - MongoDB
 - Mongoose
 - Express
+- Concurrently
 
 ## Email
 - mailtrap.io

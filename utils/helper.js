@@ -1,10 +1,18 @@
-const crypto = require("crypto");
 
-exports.sendError = (res, error, statusCode = 401) => {
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
+
+import crypto from "crypto";
+
+const sendError = (res, error, statusCode = 401) => {
     res.status(statusCode).json({ error });
 };
 
-exports.generateRandomByte = () => {
+const generateRandomByte = () => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(30, (err, buff) => {
         if (err) reject(err);
@@ -15,3 +23,5 @@ exports.generateRandomByte = () => {
       });
     });
 };
+
+export  {sendError, generateRandomByte};

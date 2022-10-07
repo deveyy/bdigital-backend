@@ -1,7 +1,14 @@
-const { check, validationResult } = require("express-validator");
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
+
+import { check, validationResult } from "express-validator";
 
 //User
-exports.userValidator = [
+const userValidator = [
     // name
     check('name')
     .trim()
@@ -23,7 +30,7 @@ exports.userValidator = [
     .withMessage("Password must be 8 to 20 characters long!")
 ];
 
-exports.validatePassword = [
+const validatePassword = [
     check("newPassword")
       .trim()
       .not()
@@ -33,15 +40,17 @@ exports.validatePassword = [
       .withMessage("Password must be 8 to 20 characters long!"),
 ];
 
-exports.signInValidator = [
+const signInValidator = [
     check("email").normalizeEmail().isEmail().withMessage("Email is invalid!"),
     check("password").trim().not().isEmpty().withMessage("Password is missing!"),
 ];
 
-exports.validate = (req, res, next) => {
+const validate = (req, res, next) => {
    const error =  validationResult(req).array();
    if(error.length) {
     return res.json({error: error[0].msg});
    }
    next();
 }
+
+export { userValidator, validatePassword, signInValidator, validate}

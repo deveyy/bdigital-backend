@@ -1,14 +1,14 @@
-const  mongoose  = require("mongoose");
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
 
-require('dotenv').config();
+import  mongoose  from "mongoose";
 
-const DATABASE_URL = process.env.DATABASE_URL;
+const connectDB = (url) => {
+    return mongoose.connect(url)
+  }
 
-mongoose.connect(DATABASE_URL)
-        .then(() => {
-            console.log('db is connected')
-        })
-        .catch((ex) => {
-            console.log('db connection failed', ex);
-        });
-
+export default connectDB

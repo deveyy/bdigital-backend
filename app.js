@@ -5,26 +5,55 @@
  * @email thiendinh.dev@gmail.com
  */
 
-const express = require('express');
-require("express-async-errors");
-const morgan = require("morgan");
-const { errorHandler } = require("./middlewares/error");
+import express from 'express';
+import "express-async-errors";
+import morgan from "morgan";
+import dotenv from 'dotenv'
 
-require("dotenv").config();
+import helmet from 'helmet';
+import xss from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
+import cors from 'cors';
+
+import  {errorHandler}  from "./middlewares/error.js";
+
+dotenv.config();
 
 //connect db
-require('./db');
+import connectDB from './db/index.js';
 
-const userRouter = require('./routes/user');
+//routes
+import userRouter from './routes/user.js';
 
 const app = express();
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(helmet());
+app.use(xss());
+app.use(cors());
+app.use(mongoSanitize());
+app.use(errorHandler);
+
+if (process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'))
+}
 app.use('/api/user',userRouter);
 
 app.use(errorHandler);
 
+//port
+const port = process.env.PORT || 5000
 
-app.listen(process.env.PORT, () => {
-    console.log('The port is listening on port 8000')
-})
+//server
+const start = async () => {
+  try {
+    await connectDB(process.env.DATABASE_URL)
+    app.listen(port, () => {
+      console.log(`Server is listening on port ${port}...`)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+start();
+

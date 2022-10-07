@@ -1,7 +1,15 @@
-const { isValidObjectId } = require("mongoose");
-const PasswordResetToken = require("../models/passwordResetToken");
-const { sendError } = require("../utils/helper");
-exports.isValidPassResetToken = async (req, res, next) => {
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
+
+import { isValidObjectId } from "mongoose";
+import PasswordResetToken  from "../models/passwordResetToken.js";
+import  { sendError }  from "../utils/helper.js";
+
+const isValidPassResetToken = async (req, res, next) => {
   const { token, userId } = req.body;
 
   if (!token.trim() || !isValidObjectId(userId))
@@ -17,3 +25,5 @@ exports.isValidPassResetToken = async (req, res, next) => {
   req.resetToken = resetToken;
   next();
 };
+
+export  {isValidPassResetToken} 

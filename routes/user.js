@@ -1,5 +1,13 @@
-const express = require("express");
-const {
+/**
+ * @author ddthien.dev
+ * @date 2022-10-07
+ * @contact
+ * @email thiendinh.dev@gmail.com
+ */
+
+import  express from "express";
+
+import {
   create,
   verifyEmail,
   resendEmailVerificationToken,
@@ -7,20 +15,28 @@ const {
   sendResetPasswordTokenStatus,
   resetPassword,
   signIn
-} = require("../controllers/user");
-const { isValidPassResetToken } = require("../middlewares/user");
-const {
+} from "../controllers/user.js";
+import { isValidPassResetToken } from "../middlewares/user.js";
+import {
   userValidator,
   validate,
   validatePassword,
   signInValidator
-} = require("../middlewares/validator");
+} from "../middlewares/validator.js";
+
+import rateLimiter from 'express-rate-limit';
+
+const apiLimiter = rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+});
 
 const router = express.Router();
 
-router.post("/sign-in", signInValidator, validate, signIn);
+router.post("/sign-in", signInValidator, validate, signIn, apiLimiter);
 
-router.post("/create", userValidator, validate, create);
+router.post("/create", userValidator, validate, create, apiLimiter);
 router.post("/verify-email", verifyEmail);
 router.post("/resend-email-verification-token", resendEmailVerificationToken);
 router.post("/forget-password", forgetPassword);
@@ -37,4 +53,4 @@ router.post(
   resetPassword
 );
 
-module.exports = router;
+export default router;
