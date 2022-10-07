@@ -11,8 +11,6 @@ require('./db');
 
 const userRouter = require('./routes/user');
 
-
-// MVC - Modal controller
 app.use(express.json());
 app.use('/api/user',userRouter);
 

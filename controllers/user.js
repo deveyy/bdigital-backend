@@ -1,121 +1,128 @@
-const User = require('../models/user');
+const User = require("../models/user");
 const EmailVerificationToken = require("../models/emailVerificationToken");
-const nodemailer = require('nodemailer');
-
-require('dotenv').config();
-
 const { isValidObjectId } = require("mongoose");
+const { generateOTP, generateMailTransporter } = require("../utils/mail");
+const { sendError } = require("../utils/helper");
 
-const create = async (req, res) => {
-   const { name, email, password} = req.body;
-   
-   const oldUser = await User.findOne({email});
-   if(oldUser) 
-   return res.status(401).json({error: "This email is already in use"})
+exports.create = async (req, res) => {
+  const { name, email, password } = req.body;
 
-   const newUser = new User({ name, email, password})
-   await newUser.save();
+  const oldUser = await User.findOne({ email });
 
-   // generate 6 digit otp
-   let OTP = '';
-   for(let i = 0; i <= 5; i++) {
-     const randomVal = Math.round(Math.random() * 9);
-     OTP += randomVal 
-   }
-   // store otp inside our db
-   const newEmailVerificationToken = new EmailVerificationToken({
-      owner: newUser._id,
-      token: OTP
-   });
-   await newEmailVerificationToken.save(); 
-   // send that otp to our user
-   var transport = nodemailer.createTransport({
-      host: process.env.host,
-      port: process.env.port,
-      auth: {
-        user: process.env.user,
-        pass: process.env.password
-      }
-    });
-    // send mail
-   transport.sendMail({
-      from: 'biosweb@asifboot.com',
-      to: newUser.email,
-      subject: 'Email Verification',
-      html: `
-         <p>Your verification OTP</p>
-         <h1>${OTP}</h1>
-      `
-   })
+  if (oldUser) return sendError(res, "This email is already in use!");
 
-   res
-   .status(201)
-   .json({ 
-      message: 'Please verify your email. OTP has been sent to your email account!'});
+  const newUser = new User({ name, email, password });
+  await newUser.save();
+
+  // generate 6 digit otp
+  let OTP = generateOTP();
+
+  // store otp inside our db
+  const newEmailVerificationToken = new EmailVerificationToken({
+    owner: newUser._id,
+    token: OTP,
+  });
+
+  await newEmailVerificationToken.save();
+
+  // send that otp to our user
+
+  var transport = generateMailTransporter();
+
+  transport.sendMail({
+    from: "verification@bdigital.com",
+    to: newUser.email,
+    subject: "Email Verification",
+    html: `
+      <p>Your verification OTP</p>
+      <h1>${OTP}</h1>
+
+    `,
+  });
+
+  res.status(201).json({
+    message:
+      "Please verify your email. OTP has been sent to your email accont!",
+  });
 };
 
-const verifyEmail = async (req, res) => {
-   const { userId, OTP } = req.body;
-   
-   if(!isValidObjectId(userId)) return 
-   res.json({
-      error: "Invalid user!"
-   });
+exports.verifyEmail = async (req, res) => {
+  const { userId, OTP } = req.body;
 
-  const user = await User.findById(userId)
+  if (!isValidObjectId(userId)) return res.json({ error: "Invalid user!" });
 
-  if(!user) return 
-   res.json({
-      error: "User not found!"
-   });
+  const user = await User.findById(userId);
+  if (!user) return sendError(res, "user not found!", 404);
 
-   if(user.isVerified) return 
-   res.json({
-      error: "User is already verified!"
-   });
-   
-   const token = await EmailVerificationToken.findOne({owner: userId})
-   if(!token) return 
-   res.json({
-      error: "Token not found!"
-   });
-   
-   const isMatched = await token.compaireToken(OTP);
-   if(!isMatched) return
-   res.json({
-      error: "Please submit a valid OTP!"
-   });
+  if (user.isVerified) return sendError(res, "user is already verified!");
 
-   user.isVerified = true;
-   await user.save();
+  const token = await EmailVerificationToken.findOne({ owner: userId });
+  if (!token) return sendError(res, "token not found!");
 
-   EmailVerificationToken.findByIdAndDelete(token._id)
+  const isMatched = await token.compaireToken(OTP);
+  if (!isMatched) return sendError(res, "Please submit a valid OTP!");
 
-     // send that otp to our user
-     var transport = nodemailer.createTransport({
-      host: process.env.host,
-      port: process.env.port,
-      auth: {
-        user: process.env.user,
-        pass: process.env.password
-      }
-    });
-    // send mail
-   transport.sendMail({
-      from: 'biosweb@asifboot.com',
-      to: user.email,
-      subject: 'Email Verified',
-      html: `
-         <p>Welcome to bdigital</p>
-         <h1>${OTP}</h1>
-      `
-   });
+  user.isVerified = true;
+  await user.save();
 
-   res.json({
-      message: "Your email is verified!"
-   });
-}
+  await EmailVerificationToken.findByIdAndDelete(token._id);
 
-module.exports =  {create, verifyEmail};
+  var transport = generateMailTransporter();
 
+  transport.sendMail({
+    from: "verification@bdigital.com",
+    to: user.email,
+    subject: "Welcome Email",
+    html: "<h1>Welcome to bdigital.</h1>",
+  });
+  res.json({ message: "Your email is verified." });
+};
 
+exports.resendEmailVerificationToken = async (req, res) => {
+  const { userId } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return sendError(res, "user not found!");
+
+  if (user.isVerified)
+    return sendError(res, "This email id is already verified!");
+
+  const alreadyHasToken = await EmailVerificationToken.findOne({
+    owner: userId,
+  });
+  if (alreadyHasToken)
+    return sendError(
+      res,
+      "Only after one hour you can request for another token!"
+    );
+
+  // generate 6 digit otp
+  let OTP = generateOTP();
+
+  // store otp inside our db
+  const newEmailVerificationToken = new EmailVerificationToken({
+    owner: user._id,
+    token: OTP,
+  });
+
+  await newEmailVerificationToken.save();
+
+  // send that otp to our user
+
+  var transport = generateMailTransporter();
+
+  transport.sendMail({
+    from: "verification@bdigital.com",
+    to: user.email,
+    subject: "Email Verification",
+    html: `
+      <p>Your verification OTP</p>
+      <h1>${OTP}</h1>
+
+    `,
+  });
+
+  res.json({
+    message: "New OTP has been sent to your registered email accout.",
+  });
+};

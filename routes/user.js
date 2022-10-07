@@ -1,15 +1,15 @@
-const express = require('express');
-const { create, verifyEmail } = require('../controllers/user');
-const { userValidator, validate } = require("../middlewares/validator");
+const express = require("express");
+const {
+  create,
+  verifyEmail,
+  resendEmailVerificationToken,
+} = require("../controllers/user");
+const { userValidtor, validate } = require("../middlewares/validator");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("<h1>Home</h1>")
-});
-
-router.post("/create", userValidator, validate ,create); 
-
-router.post("/verify-email", verifyEmail); 
+router.post("/create", userValidtor, validate, create);
+router.post("/verify-email", verifyEmail);
+router.post("/resend-email-verification-token", resendEmailVerificationToken);
 
 module.exports = router;
