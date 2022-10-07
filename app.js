@@ -12,7 +12,7 @@ const userRouter = require('./routes/user');
 
 
 // MVC - Modal controller
-app.use(userRouter);
+app.use('/api',userRouter);
 
 
 app.get('/about', (req, res) => {
