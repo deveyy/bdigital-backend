@@ -12,8 +12,8 @@ exports.generateOTP = (otp_length = 6) => {
   return OTP;
 };
 
-exports.generateMailTransporter = () =>
-  nodemailer.createTransport({
+exports.generateMailTransporter = async () =>
+ await nodemailer.createTransport({
     host: process.env.host,
     port: process.env.port,
     auth: {

@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
 
   // send that otp to our user
 
-  var transport = generateMailTransporter();
+ const transport = await generateMailTransporter();
 
   transport.sendMail({
     from: "verification@bdigital.com",
