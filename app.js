@@ -12,7 +12,8 @@ const userRouter = require('./routes/user');
 
 
 // MVC - Modal controller
-app.use('/api',userRouter);
+app.use(express.json());
+app.use('/api/user',userRouter);
 
 
 app.get('/about', (req, res) => {

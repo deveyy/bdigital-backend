@@ -1,7 +1,8 @@
 
 
 const create =  (req, res) => {
-    res.send("<h1>Create user</h1>")
+    console.log(req.body);
+    res.json({user: req.body});
 }
 
 module.exports =  {create};
