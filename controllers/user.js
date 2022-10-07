@@ -139,12 +139,12 @@ exports.forgetPassword = async (req, res) => {
   if (!user) return sendError(res, "User not found!", 404);
 
   // check already Token
-  const alreadyHasToken = await PasswordResetToken.findOne({ owner: user._id });
-  if (alreadyHasToken)
-    return sendError(
-      res,
-      "Only after one hour you can request for another token!"
-    );
+  // const alreadyHasToken = await PasswordResetToken.findOne({ owner: user._id });
+  // if (alreadyHasToken)
+  //   return sendError(
+  //     res,
+  //     "Only after one hour you can request for another token!"
+  //   );
 
   const token = await generateRandomByte();
   const newPasswordResetToken = await PasswordResetToken({
@@ -159,7 +159,7 @@ exports.forgetPassword = async (req, res) => {
   const transport = await generateMailTransporter();
 
   transport.sendMail({
-    from: "security@reviewapp.com",
+    from: "security@bdigital.com",
     to: user.email,
     subject: "Reset Password Link",
     html: `
@@ -170,4 +170,42 @@ exports.forgetPassword = async (req, res) => {
   });
 
   res.json({ message: "Link sent to your email!" });
+};
+
+exports.sendResetPasswordTokenStatus = (req, res) => {
+  res.json({ valid: true });
+};
+
+exports.resetPassword = async (req, res) => {
+  const { newPassword, userId } = req.body;
+
+  const user = await User.findById(userId);
+  const matched = await user.comparePassword(newPassword);
+  if (matched)
+    return sendError(
+      res,
+      "The new password must be different from the old one!"
+    );
+
+  user.password = newPassword;
+  await user.save();
+
+  await PasswordResetToken.findByIdAndDelete(req.resetToken._id);
+
+  const transport = await generateMailTransporter();
+
+  transport.sendMail({
+    from: "security@bdigital.com",
+    to: user.email,
+    subject: "Password Reset Successfully",
+    html: `
+      <h1>Password Reset Successfully</h1>
+      <p>Now you can use new password.</p>
+
+    `,
+  });
+
+  res.json({
+    message: "Password reset successfully, now you can use new password.",
+  });
 };
