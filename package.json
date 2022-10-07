@@ -2,19 +2,14 @@
   "name": "bdigital-backend",
   "version": "1.0.0",
   "description": "bdigital-backend Node Restful API",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js | bunyan -o short"
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "ddthien.dev",
   "license": "ISC",
   "dependencies": {
-    "bunyan": "^1.8.15",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.1",
-    "mongoose": "^6.6.5",
-    "nodemon": "^2.0.20",
-    "uuid": "^9.0.0"
+    "express": "^4.18.1"
   }
 }
