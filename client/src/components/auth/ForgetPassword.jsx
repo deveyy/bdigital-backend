@@ -1,5 +1,6 @@
 import React from 'react';
 import Container from '../Container';
+import FormContainer from '../form/FormContainer';
 import FormInput from '../form/FormInput';
 import Submit from '../form/Submit';
 import Title from '../form/Title';
@@ -7,7 +8,7 @@ import CustomLink from '../link/CustomLink';
 
 export default function ForgetPassword() {
   return (
-    <div className='fixed inset-0 bg-slate-200 -z-10 flex justify-center items-center'>
+    <FormContainer>
         <Container>
             <form className='bg-slate-500 rounded p-6 w-72'>
                 <Title>Forget Password</Title>
@@ -20,6 +21,6 @@ export default function ForgetPassword() {
                </div>
             </form>
         </Container>
-    </div>
+    </FormContainer>
   );
 }
