@@ -1,0 +1,14 @@
+{
+    "root": true,
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "prettier",
+        "eslint:recommended"
+      ],
+    "rules": {
+        "semi":"warn",
+        "strict": "off",
+        "react/no-set-state": "off"
+    }
+}
