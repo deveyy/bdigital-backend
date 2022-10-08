@@ -23,7 +23,7 @@ const validateUserInfo = ({name, email, password}) => {
     return { ok: false, error: "Password must be 8 characters long!" };
 
   return { ok: true };
-}
+};
 
 export default function Signup() {
 
@@ -40,11 +40,8 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {ok, error} = validateUserInfo(userInfo);
-
-    if(!ok) {
-
-    };
+    const {ok} = validateUserInfo(userInfo);
+    console.log(ok);
   };
 
   const { name, email, password} = userInfo;
