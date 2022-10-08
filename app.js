@@ -39,7 +39,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 app.use('/api/user',userRouter);
 
-app.use('/*', handleNotFound)
+app.use('/*', handleNotFound);
 
 app.use(errorHandler);
 
