@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createUser } from '../../api/auth';
 import { isValidEmail } from '../../utils/helper';
 import { commonModalClasses } from '../../utils/theme';
 import Container from '../Container';
@@ -38,10 +39,14 @@ export default function Signup() {
     setUserInfo({...userInfo, [name]: value});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {ok} = validateUserInfo(userInfo);
-    console.log(ok);
+    const {ok, error } = validateUserInfo(userInfo);
+      if (!ok) return console.log(error);
+    
+    const response  = await createUser(userInfo);
+      if(response.error) return console.log(response.error);
+    console.log(response.user);
   };
 
   const { name, email, password} = userInfo;
