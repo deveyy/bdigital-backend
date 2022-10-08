@@ -8,7 +8,7 @@
 import express from 'express';
 import "express-async-errors";
 import morgan from "morgan";
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 import helmet from 'helmet';
 import xss from 'xss-clean';

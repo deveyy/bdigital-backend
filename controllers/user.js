@@ -13,7 +13,7 @@ import EmailVerificationToken from "../models/emailVerificationToken.js";
 import PasswordResetToken  from "../models/passwordResetToken.js";
 import { generateOTP, generateMailTransporter } from "../utils/mail.js";
 import { sendError, generateRandomByte } from "../utils/helper.js";
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
