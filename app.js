@@ -24,6 +24,9 @@ import connectDB from './db/index.js';
 
 //routes
 import userRouter from './routes/user.js';
+import actorRouter from './routes/actor.js';
+
+//helper
 import { handleNotFound } from './utils/helper.js';
 
 const app = express();
@@ -37,7 +40,9 @@ app.use(errorHandler);
 if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'))
 }
-app.use('/api/user',userRouter);
+
+app.use('/api/user', userRouter);
+app.use('/api/actor', actorRouter)
 
 app.use('/*', handleNotFound);
 
