@@ -91,7 +91,17 @@ const verifyEmail = async (req, res) => {
     subject: "Email is Verified",
     html: "<h1>Welcome to bdigital.</h1>",
   });
-  res.status(StatusCodes.CREATED).json({ message: "Your email is verified." });
+  const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+  res.json({
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      token: jwtToken,
+      isVerified: user.isVerified,
+    },
+    message: "Your email is verified.",
+  });
 };
 
 const resendEmailVerificationToken = async (req, res) => {
@@ -167,7 +177,7 @@ const forgetPassword = async (req, res) => {
   await newPasswordResetToken.save();
   const CLIENT_URL = process.env.CLIENT_URL;
 
-  const resetPasswordUrl = `${CLIENT_URL}/reset-password?token=${token}&id=${user._id}`;
+  const resetPasswordUrl = `${CLIENT_URL}/auth/reset-password?token=${token}&id=${user._id}`;
 
   const transport = await generateMailTransporter();
 
