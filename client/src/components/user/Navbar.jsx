@@ -11,7 +11,7 @@ export default function Navbar() {
             <Container className="max-w-screen-lg mx-auto p-2">
                 <div className="flex justify-between items-center">
                     <CustomLink to="/">
-                    <img src={Logo}  alt="logo" className="h-10"/>
+                        <img src={Logo}  alt="logo" className="h-10"/>
                     </CustomLink>
                     <ul>
                         <li>
