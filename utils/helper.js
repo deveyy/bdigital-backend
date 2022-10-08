@@ -24,4 +24,8 @@ const generateRandomByte = () => {
     });
 };
 
-export  {sendError, generateRandomByte};
+const handleNotFound = (req, res) => {
+  this.sendError(res, 'Not found', 404);
+}
+
+export  {sendError, generateRandomByte, handleNotFound};

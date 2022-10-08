@@ -6,6 +6,7 @@
  */
 
 import  express from "express";
+import jwt, { decode } from 'jsonwebtoken'
 
 import {
   create,
@@ -23,6 +24,8 @@ import {
   validatePassword,
   signInValidator
 } from "../middlewares/validator.js";
+
+import { isAuth } from "../middlewares/auth.js";
 
 import rateLimiter from 'express-rate-limit';
 
@@ -52,5 +55,17 @@ router.post(
   isValidPassResetToken,
   resetPassword
 );
+
+router.get("/is-auth", isAuth, (req, res) => {
+  const { user } = req;
+  res.json({
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isVerified: user.isVerified,
+    },
+  });
+});
 
 export default router;

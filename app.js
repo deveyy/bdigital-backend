@@ -8,7 +8,7 @@
 import express from 'express';
 import "express-async-errors";
 import morgan from "morgan";
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 import helmet from 'helmet';
 import xss from 'xss-clean';
@@ -24,6 +24,7 @@ import connectDB from './db/index.js';
 
 //routes
 import userRouter from './routes/user.js';
+import { handleNotFound } from './utils/helper.js';
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,8 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'))
 }
 app.use('/api/user',userRouter);
+
+app.use('/*', handleNotFound);
 
 app.use(errorHandler);
 
