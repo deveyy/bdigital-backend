@@ -1,14 +1,7 @@
 import  multer from "multer";
 
 //https://stackoverflow.com/questions/72304042/uploading-videos-and-images-using-multer
-const storage = multer.diskStorage({
-  destination: function(req, file, cb){
-        cb(null, './public/imageUpload')
-    },
-    filename:function(req, file, cb){
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-});
+const storage = multer.diskStorage({});
 
 // file validation
 const fileFilter = (req, file, cb) => {
