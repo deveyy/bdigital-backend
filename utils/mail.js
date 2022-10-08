@@ -7,7 +7,7 @@
 
 import nodemailer from "nodemailer";
 
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
@@ -22,13 +22,13 @@ const generateOTP = (otp_length = 6) => {
 };
 
 const generateMailTransporter = async () =>
- await nodemailer.createTransport({
+  await nodemailer.createTransport({
     host: process.env.MAILHOST,
     port: process.env.MAILPORT,
     auth: {
-        user: process.env.MAILUSER,
-        pass: process.env.MAILPASSWORD
+      user: process.env.MAILUSER,
+      pass: process.env.MAILPASSWORD,
     },
   });
 
-export {generateOTP,  generateMailTransporter}
+export { generateOTP, generateMailTransporter };

@@ -1,4 +1,3 @@
-
 /**
  * @author ddthien.dev
  * @date 2022-10-07
@@ -10,19 +9,19 @@ import crypto from "crypto";
 import cloudinary from "../config/cloudinary.js";
 
 const sendError = (res, error, statusCode = 401) => {
-    res.status(statusCode).json({ error });
+  res.status(statusCode).json({ error });
 };
 
 const generateRandomByte = () => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(30, (err, buff) => {
-        if (err) reject(err);
-        const buffString = buff.toString("hex");
-  
-        console.log(buffString);
-        resolve(buffString);
-      });
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(30, (err, buff) => {
+      if (err) reject(err);
+      const buffString = buff.toString("hex");
+
+      console.log(buffString);
+      resolve(buffString);
     });
+  });
 };
 
 const uploadImageToCloud = async (file) => {
@@ -46,10 +45,13 @@ const formatActor = (actor) => {
 };
 
 const handleNotFound = (req, res) => {
-  this.sendError(res, 'Not found', 404);
-}
+  this.sendError(res, "Not found", 404);
+};
 
-export  {sendError, 
-  generateRandomByte, 
-  handleNotFound, formatActor,
-  uploadImageToCloud};
+export {
+  sendError,
+  generateRandomByte,
+  handleNotFound,
+  formatActor,
+  uploadImageToCloud,
+};
