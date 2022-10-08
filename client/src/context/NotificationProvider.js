@@ -12,16 +12,16 @@ export default function NotificationProvider({ children }) {
 
     switch (type) {
       case "error":
-        setClasses("bg-red-500 rounded");
+        setClasses("bg-red-500");
         break;
       case "success":
-        setClasses("bg-green-500 rounded");
+        setClasses("bg-green-500");
         break;
       case "warning":
-        setClasses("bg-orange-500 rounded");
+        setClasses("bg-orange-500");
         break;
       default:
-        setClasses("bg-red-500 rounded");
+        setClasses("bg-red-500");
     }
     setNotification(value);
 

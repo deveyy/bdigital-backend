@@ -1,9 +1,17 @@
 {
-    "cSpell.words": [
-        "Bdigital",
-        "linebreak",
-        "signin",
-        "signup",
-        "tailwindcss"
-    ]
+  "cSpell.words": [
+    "Bdigital",
+    "cloudinary",
+    "ddthien",
+    "linebreak",
+    "MAILHOST",
+    "MAILPASSWORD",
+    "MAILPORT",
+    "MAILUSER",
+    "middlewares",
+    "signin",
+    "signup",
+    "tailwindcss"
+  ],
+  "editor.formatOnSave": true
 }
