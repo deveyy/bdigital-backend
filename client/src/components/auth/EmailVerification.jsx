@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
@@ -16,6 +14,9 @@ export default function EmailVerification() {
 
     const handleOtpChange = ({target}, index) => {
         const {value} = target;
+        const newOtp = [...otp];
+        newOtp[index] = value.substring(value.length -1, value.length);
+        setOtp([...newOtp]);
         setActiveOtpIndex(index + 1);
     };
 

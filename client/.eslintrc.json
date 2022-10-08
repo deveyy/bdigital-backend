@@ -4,11 +4,18 @@
         "react-app",
         "react-app/jest",
         "prettier",
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:react/recommended"
       ],
+    "plugins": [
+        "react","prettier"
+    ],
     "rules": {
         "semi":"warn",
         "strict": "off",
-        "react/no-set-state": "off"
+        "react/no-set-state": "off",
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error"
     }
 }
