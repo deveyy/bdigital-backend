@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export default function FormInput({ name, label, placeholder, ...rest }) {
   return (
@@ -17,5 +17,5 @@ export default function FormInput({ name, label, placeholder, ...rest }) {
         {label}
       </label>
     </div>
-  );
+  )
 }

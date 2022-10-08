@@ -7,6 +7,7 @@
  */
 
 import crypto from "crypto";
+import cloudinary from "../config/cloudinary.js";
 
 const sendError = (res, error, statusCode = 401) => {
     res.status(statusCode).json({ error });
@@ -24,8 +25,31 @@ const generateRandomByte = () => {
     });
 };
 
+const uploadImageToCloud = async (file) => {
+  const { secure_url: url, public_id } = await cloudinary.v2.uploader.upload(
+    file,
+    { gravity: "face", height: 500, width: 500, crop: "thumb" }
+  );
+
+  return { url, public_id };
+};
+
+const formatActor = (actor) => {
+  const { name, gender, about, _id, avatar } = actor;
+  return {
+    id: _id,
+    name,
+    about,
+    gender,
+    avatar: avatar?.url,
+  };
+};
+
 const handleNotFound = (req, res) => {
   this.sendError(res, 'Not found', 404);
 }
 
-export  {sendError, generateRandomByte, handleNotFound};
+export  {sendError, 
+  generateRandomByte, 
+  handleNotFound, formatActor,
+  uploadImageToCloud};

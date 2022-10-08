@@ -1,14 +1,13 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import ConfirmPassword from "./components/auth/ConfirmPassword";
-import EmailVerification from "./components/auth/EmailVerification";
-import ForgetPassword from "./components/auth/ForgetPassword";
-import Signin from "./components/auth/Signin";
-import Signup from "./components/auth/Signup";
-import Home from "./components/Home";
-import NotFound from "./components/NotFound";
-import Navbar from "./components/user/Navbar";
-
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import ConfirmPassword from './components/auth/ConfirmPassword'
+import EmailVerification from './components/auth/EmailVerification'
+import ForgetPassword from './components/auth/ForgetPassword'
+import Signin from './components/auth/Signin'
+import Signup from './components/auth/Signup'
+import Home from './components/Home'
+import NotFound from './components/NotFound'
+import Navbar from './components/user/Navbar'
 
 export default function App() {
   return (
@@ -25,5 +24,5 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
-  );
+  )
 }

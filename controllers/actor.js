@@ -1,17 +1,8 @@
 
 import Actor from '../models/actor.js';
-import cloudinary from 'cloudinary';
-
-import * as dotenv from 'dotenv';
-
-dotenv.config();
-
-cloudinary.v2.config({
-    cloud_name: process.env.CLOUD_NAME || '',
-    api_key: process.env.CLOUD_API_KEY || '',
-    api_secret: process.env.CLOUD_API_SECRET || '',
-    secure: true
-})
+import { isValidObjectId } from 'mongoose';
+import { formatActor, sendError, uploadImageToCloud } from '../utils/helper.js';
+import cloudinary from "../config/cloudinary.js";
 
 const createActor = async (req, res) => {
     const {name, about, gender } = req.body;
@@ -20,17 +11,54 @@ const createActor = async (req, res) => {
     const newActor = await new Actor({name, about, gender});
 
     if(file) {
-        const {secure_url, public_id} =  await cloudinary.v2.uploader.upload(file.path);
-        newActor.avatar = { url: secure_url, public_id};
+        const {url, public_id} =  await uploadImageToCloud(file.path);
+        newActor.avatar = { url, public_id};
     }
     await newActor.save();
 
-    res.status(201).json(
-        {id: newActor._id, 
-        name, about, 
-        gender, 
-        avatar: newActor.avatar?.url
-    });
+    res.status(201).json(formatActor(newActor));
+};
+
+// update
+// things to consider while updating
+// no.1 - is image file is / avatar is also updating
+// no.2 - if yes then remove old image before uploading new image / avatar
+
+const updateActor = async (req, res) => {
+    const { name, about, gender } = req.body;
+    const { file } = req;
+    const { actorId } = req.params;
+
+    if(!isValidObjectId(actorId)) {
+        return sendError(res, 'Invalid request')
+    } 
+   const actor = await Actor.findById(actorId);
+
+   if(!actor) {
+    return sendError(res, 'Invalid request, record not found!')
+   }
+
+   const public_id = actor.avatar?.public_id;
+    // remove old image if there was one!
+   if(public_id && file) {
+      const { result } =  await cloudinary.v2.uploader.destroy(public_id);
+      if(result !== 'ok') {
+        return sendError(res, 'Cloud not remove image from cloud!')
+      }
+    }
+    // upload new avatar if there is one!
+    if(file) {
+        const { url, public_id } = await uploadImageToCloud(file.path);
+        actor.avatar = { url, public_id };
+    }
+
+    actor.name = name;
+    actor.about = about;
+    actor.gender = gender;
+
+    await actor.save();
+
+    res.status(201).json(formatActor(actor));
 }
 
-export {createActor}
+export {createActor, updateActor}

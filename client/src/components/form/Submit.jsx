@@ -1,5 +1,5 @@
-import React from "react";
-import { ImSpinner3 } from "react-icons/im";
+import React from 'react'
+import { ImSpinner3 } from 'react-icons/im'
 
 export default function Submit({ value, busy }) {
   return (
@@ -9,5 +9,5 @@ export default function Submit({ value, busy }) {
     >
       {busy ? <ImSpinner3 className="animate-spin" /> : value}
     </button>
-  );
+  )
 }

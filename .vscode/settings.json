@@ -12,5 +12,6 @@
         "signin",
         "signup",
         "tailwindcss"
-    ]
+    ],
+    "editor.formatOnSave": true
 }

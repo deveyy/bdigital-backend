@@ -6,11 +6,14 @@
  */
 
  import  express from "express";
-import { createActor } from "../controllers/actor.js";
+import { createActor, updateActor } from "../controllers/actor.js";
 import { uploadImage } from "../middlewares/multer.js";
+import { actorInfoValidator, validate } from "../middlewares/validator.js";
 
  const router = express.Router();
 
- router.post("/create", uploadImage.single("avatar"), createActor)
+ router.post("/create", uploadImage.single("avatar"), actorInfoValidator, validate ,createActor);
+
+ router.post("/update/:actorId", uploadImage.single("avatar"), actorInfoValidator,validate, updateActor);
 
  export default router;

@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import { BrowserRouter } from 'react-router-dom'
 
-import "./index.css";
-import ContextProviders from "./context";
+import './index.css'
+import ContextProviders from './context'
 
 ReactDOM.render(
   <BrowserRouter>
@@ -12,5 +12,5 @@ ReactDOM.render(
       <App />
     </ContextProviders>
   </BrowserRouter>,
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)

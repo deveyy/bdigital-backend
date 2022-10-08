@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "axios": "^0.25.0",
-    "eslint-plugin-prettier": "^4.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -14,7 +13,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "lint": "eslint --ext js,jsx src/",
+    "lint:fix": "eslint --fix --ext js, jsx src/",
+    "prettier": "prettier --check \"src/**/(**.jsx|*.js|*.scss|*.css)\"",
+    "prettier:fix": "prettier --write \"src/**/(**.jsx|*.js|*.scss|*.css)\""
   },
   "browserslist": {
     "production": [
@@ -32,6 +35,8 @@
     "autoprefixer": "^10.4.2",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.8",
     "postcss": "^8.4.5",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.0.16"
