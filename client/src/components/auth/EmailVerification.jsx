@@ -12,19 +12,35 @@ export default function EmailVerification() {
     const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(''));
     const [activeOtpIndex, setActiveOtpIndex] = useState(0);
 
+    const focusNextInputField = (index) => {
+        setActiveOtpIndex(index + 1);
+    }
+    const focusPrevInputField = (index) => {
+        let nextIndex;
+        const diff = index - 1;
+        nextIndex = diff !== 0 ? diff : 0;
+        setActiveOtpIndex(nextIndex);
+    }
+
     const handleOtpChange = ({target}, index) => {
         const {value} = target;
         const newOtp = [...otp];
         newOtp[index] = value.substring(value.length -1, value.length);
+        
+        if(!value) {
+            focusPrevInputField(index)
+        } else {
+            
+            focusNextInputField(index);
+        }
         setOtp([...newOtp]);
-        setActiveOtpIndex(index + 1);
+
     };
 
     const inputRef = useRef();
 
     useEffect(() => {
         inputRef.current?.focus();
-        console.log(inputRef);
     }, [activeOtpIndex]);
 
     return (
