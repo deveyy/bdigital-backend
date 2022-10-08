@@ -1,9 +1,9 @@
-import React from 'react'
-import Container from '../Container'
-import FormInput from '../form/FormInput'
-import Submit from '../form/Submit'
-import Title from '../form/Title'
-import CustomLink from '../link/CustomLink'
+import React from 'react';
+import Container from '../Container';
+import FormInput from '../form/FormInput';
+import Submit from '../form/Submit';
+import Title from '../form/Title';
+import CustomLink from '../link/CustomLink';
 
 
 export default function Signin() {
@@ -23,5 +23,5 @@ export default function Signin() {
             </form>
         </Container>
     </div>
-  )
+  );
 }

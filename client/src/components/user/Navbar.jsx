@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react';
 import Logo from '../img/logo.png';
-import { BsFillSunFill } from 'react-icons/bs'
-import Container from "../Container"
+import { BsFillSunFill } from 'react-icons/bs';
+import Container from '../Container';
 
 
 export default function Navbar() {
@@ -20,5 +20,5 @@ export default function Navbar() {
                 </div>
             </Container>
       </div>
-    )
+    );
 }
