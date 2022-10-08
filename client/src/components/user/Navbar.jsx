@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from '../img/logo.png';
 import { BsFillSunFill } from 'react-icons/bs';
 import Container from '../Container';
+import CustomLink from '../link/CustomLink';
 
 
 export default function Navbar() {
@@ -9,7 +10,9 @@ export default function Navbar() {
       <div className="bg-secondary drop-shadow-sm shadow-gray-50">
             <Container className="max-w-screen-lg mx-auto p-2">
                 <div className="flex justify-between items-center">
+                    <CustomLink to="/">
                     <img src={Logo}  alt="logo" className="h-10"/>
+                    </CustomLink>
                     <ul>
                         <li>
                             <button className="bg-dark-subtle p-1 rounded">
