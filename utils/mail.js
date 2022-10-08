@@ -23,11 +23,11 @@ const generateOTP = (otp_length = 6) => {
 
 const generateMailTransporter = async () =>
  await nodemailer.createTransport({
-    host: process.env.mailHost,
-    port: process.env.mailPort,
+    host: process.env.MAILHOST,
+    port: process.env.MAILPORT,
     auth: {
-        user: process.env.mailUser,
-        pass: process.env.mailPassword
+        user: process.env.MAILUSER,
+        pass: process.env.MAILPASSWORD
     },
   });
 

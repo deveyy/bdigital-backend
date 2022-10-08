@@ -1,8 +1,13 @@
 {
     "cSpell.words": [
         "Bdigital",
+        "cloudinary",
         "ddthien",
         "linebreak",
+        "MAILHOST",
+        "MAILPASSWORD",
+        "MAILPORT",
+        "MAILUSER",
         "middlewares",
         "signin",
         "signup",

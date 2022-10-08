@@ -7,9 +7,10 @@
 
  import  express from "express";
 import { createActor } from "../controllers/actor.js";
+import { uploadImage } from "../middlewares/multer.js";
 
  const router = express.Router();
 
- router.post("/create", createActor)
+ router.post("/create", uploadImage.single("avatar"), createActor)
 
  export default router;
