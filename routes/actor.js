@@ -6,7 +6,12 @@
  */
 
 import express from "express";
-import { createActor, deleteActor, updateActor } from "../controllers/actor.js";
+import {
+  createActor,
+  deleteActor,
+  searchActor,
+  updateActor,
+} from "../controllers/actor.js";
 import { uploadImage } from "../middlewares/multer.js";
 import { actorInfoValidator, validate } from "../middlewares/validator.js";
 
@@ -29,5 +34,7 @@ router.post(
 );
 
 router.delete("/delete/:actorId", deleteActor);
+
+router.get("/search", searchActor);
 
 export default router;
