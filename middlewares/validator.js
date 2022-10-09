@@ -123,11 +123,11 @@ const validateMovie = [
         throw Error("Trailer url is invalid!");
       }
     }),
-  check("poster").custom((_, { req }) => {
-    if (!req.file) throw Error("Poster file is missing!");
+  // check("poster").custom((_, { req }) => {
+  //   if (!req.file) throw Error("Poster file is missing!");
 
-    return true;
-  }),
+  //   return true;
+  // }),
 ];
 
 const validate = (req, res, next) => {
