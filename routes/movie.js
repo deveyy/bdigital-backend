@@ -2,6 +2,7 @@ import express from "express";
 import {
   createMovie,
   updateMovieWithoutPoster,
+  updateMovieWithPoster,
   uploadTrailer,
 } from "../controllers/movie.js";
 import { isAuth, isAdmin } from "../middlewares/auth.js";
@@ -37,6 +38,17 @@ router.patch(
   validateMovie,
   validate,
   updateMovieWithoutPoster
+);
+
+router.patch(
+  "/update-movie-with-poster/:movieId",
+  isAuth,
+  isAdmin,
+  uploadImage.single("poster"),
+  parseData,
+  validateMovie,
+  validate,
+  updateMovieWithPoster
 );
 
 export default router;
