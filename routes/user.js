@@ -5,8 +5,8 @@
  * @email thiendinh.dev@gmail.com
  */
 
-import  express from "express";
-import jwt, { decode } from 'jsonwebtoken'
+import express from "express";
+import jwt, { decode } from "jsonwebtoken";
 
 import {
   create,
@@ -15,24 +15,24 @@ import {
   forgetPassword,
   sendResetPasswordTokenStatus,
   resetPassword,
-  signIn
+  signIn,
 } from "../controllers/user.js";
 import { isValidPassResetToken } from "../middlewares/user.js";
 import {
   userValidator,
   validate,
   validatePassword,
-  signInValidator
+  signInValidator,
 } from "../middlewares/validator.js";
 
 import { isAuth } from "../middlewares/auth.js";
 
-import rateLimiter from 'express-rate-limit';
+import rateLimiter from "express-rate-limit";
 
 const apiLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 10,
-  message: 'Too many requests from this IP, please try again after 15 minutes',
+  message: "Too many requests from this IP, please try again after 15 minutes",
 });
 
 const router = express.Router();
@@ -64,6 +64,7 @@ router.get("/is-auth", isAuth, (req, res) => {
       name: user.name,
       email: user.email,
       isVerified: user.isVerified,
+      role: user.role,
     },
   });
 });

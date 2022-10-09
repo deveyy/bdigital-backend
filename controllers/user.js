@@ -99,6 +99,7 @@ const verifyEmail = async (req, res) => {
       email: user.email,
       token: jwtToken,
       isVerified: user.isVerified,
+      role: user.role,
     },
     message: "Your email is verified.",
   });
@@ -246,11 +247,9 @@ const signIn = async (req, res, next) => {
 
   const jwtToken = jwt.sign({ userId: _id }, process.env.JWT_SECRET);
 
-  res
-    .status(StatusCodes.OK)
-    .json({
-      user: { id: _id, name, email, role, token: jwtToken, isVerified },
-    });
+  res.status(StatusCodes.OK).json({
+    user: { id: _id, name, email, role, token: jwtToken, isVerified },
+  });
 };
 
 export {
