@@ -1,4 +1,3 @@
-
 /**
  * @author ddthien.dev
  * @date 2022-10-07
@@ -29,6 +28,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

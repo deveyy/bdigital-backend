@@ -29,6 +29,10 @@ const actorSchema = mongoose.Schema(
       url: String,
       public_id: String,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );
