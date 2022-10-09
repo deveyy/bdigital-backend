@@ -9,6 +9,8 @@ import express from "express";
 import {
   createActor,
   deleteActor,
+  getLatestActors,
+  getSingleActor,
   searchActor,
   updateActor,
 } from "../controllers/actor.js";
@@ -36,5 +38,7 @@ router.post(
 router.delete("/delete/:actorId", deleteActor);
 
 router.get("/search", searchActor);
+router.get("/latest-uploads", getLatestActors);
+router.get("/single/:id", getSingleActor);
 
 export default router;
