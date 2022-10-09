@@ -1,22 +1,21 @@
-
-import Actor from '../models/actor.js';
-import { isValidObjectId } from 'mongoose';
-import { formatActor, sendError, uploadImageToCloud } from '../utils/helper.js';
+import Actor from "../models/actor.js";
+import { isValidObjectId } from "mongoose";
+import { formatActor, sendError, uploadImageToCloud } from "../utils/helper.js";
 import cloudinary from "../config/cloudinary.js";
 
 const createActor = async (req, res) => {
-    const {name, about, gender } = req.body;
-    const {file} = req;
+  const { name, about, gender } = req.body;
+  const { file } = req;
 
-    const newActor = await new Actor({name, about, gender});
+  const newActor = await new Actor({ name, about, gender });
 
-    if(file) {
-        const {url, public_id} =  await uploadImageToCloud(file.path);
-        newActor.avatar = { url, public_id};
-    }
-    await newActor.save();
+  if (file) {
+    const { url, public_id } = await uploadImageToCloud(file.path);
+    newActor.avatar = { url, public_id };
+  }
+  await newActor.save();
 
-    res.status(201).json(formatActor(newActor));
+  res.status(201).json(formatActor(newActor));
 };
 
 // update
@@ -25,40 +24,97 @@ const createActor = async (req, res) => {
 // no.2 - if yes then remove old image before uploading new image / avatar
 
 const updateActor = async (req, res) => {
-    const { name, about, gender } = req.body;
-    const { file } = req;
-    const { actorId } = req.params;
+  const { name, about, gender } = req.body;
+  const { file } = req;
+  const { actorId } = req.params;
 
-    if(!isValidObjectId(actorId)) {
-        return sendError(res, 'Invalid request')
-    } 
-   const actor = await Actor.findById(actorId);
+  if (!isValidObjectId(actorId)) {
+    return sendError(res, "Invalid request");
+  }
+  const actor = await Actor.findById(actorId);
 
-   if(!actor) {
-    return sendError(res, 'Invalid request, record not found!')
-   }
+  if (!actor) {
+    return sendError(res, "Invalid request, record not found!");
+  }
 
-   const public_id = actor.avatar?.public_id;
-    // remove old image if there was one!
-   if(public_id && file) {
-      const { result } =  await cloudinary.v2.uploader.destroy(public_id);
-      if(result !== 'ok') {
-        return sendError(res, 'Cloud not remove image from cloud!')
-      }
+  const public_id = actor.avatar?.public_id;
+  // remove old image if there was one!
+  if (public_id && file) {
+    const { result } = await cloudinary.v2.uploader.destroy(public_id);
+    if (result !== "ok") {
+      return sendError(res, "Cloud not remove image from cloud!");
     }
-    // upload new avatar if there is one!
-    if(file) {
-        const { url, public_id } = await uploadImageToCloud(file.path);
-        actor.avatar = { url, public_id };
+  }
+  // upload new avatar if there is one!
+  if (file) {
+    const { url, public_id } = await uploadImageToCloud(file.path);
+    actor.avatar = { url, public_id };
+  }
+
+  actor.name = name;
+  actor.about = about;
+  actor.gender = gender;
+
+  await actor.save();
+
+  res.status(201).json(formatActor(actor));
+};
+
+const deleteActor = async (req, res) => {
+  const { actorId } = req.params;
+
+  if (!isValidObjectId(actorId)) return sendError(res, "Invalid request!");
+
+  const actor = await Actor.findById(actorId);
+  if (!actor) return sendError(res, "Invalid request, record not found!");
+
+  const public_id = actor.avatar?.public_id;
+
+  // remove old image if there was one!
+  if (public_id) {
+    const { result } = await cloudinary.uploader.destroy(public_id);
+    if (result !== "ok") {
+      return sendError(res, "Could not remove image from cloud!");
     }
+  }
 
-    actor.name = name;
-    actor.about = about;
-    actor.gender = gender;
+  await Actor.findByIdAndDelete(actorId);
 
-    await actor.save();
+  res.json({ message: "Record removed successfully." });
+};
 
-    res.status(201).json(formatActor(actor));
-}
+const searchActor = async (req, res) => {
+  const { query } = req;
+  const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
 
-export {createActor, updateActor}
+  const actors = result.map((actor) => formatActor(actor));
+
+  res.json(actors);
+};
+
+const getLatestActors = async (req, res) => {
+  const result = await Actor.find().sort({ createdAt: "-1" }).limit(12);
+
+  const actors = result.map((actor) => formatActor(actor));
+
+  res.json(actors);
+};
+
+const getSingleActor = async (req, res) => {
+  const { id } = req.params;
+
+  if (!isValidObjectId(id)) return sendError(res, "Invalid request!");
+
+  const actor = await Actor.findById(id);
+  if (!actor) return sendError(res, "Invalid request, actor not found!", 404);
+  res.json(formatActor(actor));
+};
+
+export {
+  createActor,
+  updateActor,
+  deleteActor,
+  searchActor,
+  getLatestActors,
+  getSingleActor,
+};
