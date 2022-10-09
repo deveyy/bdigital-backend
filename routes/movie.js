@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createMovie,
+  removeMovie,
   updateMovieWithoutPoster,
   updateMovieWithPoster,
   uploadTrailer,
@@ -50,5 +51,7 @@ router.patch(
   validate,
   updateMovieWithPoster
 );
+
+router.delete("/:movieId", isAuth, isAdmin, removeMovie);
 
 export default router;
