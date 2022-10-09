@@ -1,5 +1,9 @@
 import express from "express";
-import { createMovie, uploadTrailer } from "../controllers/movie.js";
+import {
+  createMovie,
+  updateMovieWithoutPoster,
+  uploadTrailer,
+} from "../controllers/movie.js";
 import { isAuth, isAdmin } from "../middlewares/auth.js";
 import { uploadVideo, uploadImage } from "../middlewares/multer.js";
 import { validateMovie, validate } from "../middlewares/validator.js";
@@ -24,6 +28,15 @@ router.post(
   validateMovie,
   validate,
   createMovie
+);
+
+router.patch(
+  "/update-movie-without-poster/:movieId",
+  isAuth,
+  isAdmin,
+  validateMovie,
+  validate,
+  updateMovieWithoutPoster
 );
 
 export default router;
