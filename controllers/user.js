@@ -8,12 +8,12 @@
 import jwt from "jsonwebtoken";
 import { isValidObjectId } from "mongoose";
 import User from "../models/user.js";
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes } from "http-status-codes";
 import EmailVerificationToken from "../models/emailVerificationToken.js";
-import PasswordResetToken  from "../models/passwordResetToken.js";
+import PasswordResetToken from "../models/passwordResetToken.js";
 import { generateOTP, generateMailTransporter } from "../utils/mail.js";
 import { sendError, generateRandomByte } from "../utils/helper.js";
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
@@ -40,7 +40,7 @@ const create = async (req, res) => {
 
   // send that otp to our user
 
- const transport = await generateMailTransporter();
+  const transport = await generateMailTransporter();
 
   transport.sendMail({
     from: "verification@bdigital.com",
@@ -57,8 +57,8 @@ const create = async (req, res) => {
     user: {
       id: newUser._id,
       name: newUser.name,
-      email: newUser.email
-    }
+      email: newUser.email,
+    },
   });
 };
 
@@ -242,19 +242,23 @@ const signIn = async (req, res, next) => {
   const matched = await user.comparePassword(password);
   if (!matched) return sendError(res, "Email/Password mismatch!");
 
-  const { _id, name } = user;
+  const { _id, name, role, isVerified } = user;
 
   const jwtToken = jwt.sign({ userId: _id }, process.env.JWT_SECRET);
 
-  res.status(StatusCodes.OK).json({ user: { id: _id, name, email, token: jwtToken } });
+  res
+    .status(StatusCodes.OK)
+    .json({
+      user: { id: _id, name, email, role, token: jwtToken, isVerified },
+    });
 };
 
-export { 
+export {
   create,
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
   sendResetPasswordTokenStatus,
   resetPassword,
-  signIn
-}
+  signIn,
+};

@@ -14,6 +14,7 @@ import {
   searchActor,
   updateActor,
 } from "../controllers/actor.js";
+import { isAdmin, isAuth } from "../middlewares/auth.js";
 import { uploadImage } from "../middlewares/multer.js";
 import { actorInfoValidator, validate } from "../middlewares/validator.js";
 
@@ -21,6 +22,8 @@ const router = express.Router();
 
 router.post(
   "/create",
+  isAuth,
+  isAdmin,
   uploadImage.single("avatar"),
   actorInfoValidator,
   validate,
