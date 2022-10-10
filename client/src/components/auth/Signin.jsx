@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {} from "react-router-dom";
 import { useAuth, useNotification } from "../../hooks";
 import { isValidEmail } from "../../utils/helper";
 import { commonModalClasses } from "../../utils/theme";
@@ -29,10 +29,9 @@ export default function Signin() {
     password: "",
   });
 
-  const navigate = useNavigate();
   const { updateNotification } = useNotification();
   const { handleLogin, authInfo } = useAuth();
-  const { isPending, isLoggedIn } = authInfo;
+  const { isPending } = authInfo;
 
   const handleChange = ({ target }) => {
     const { value, name } = target;
@@ -47,10 +46,10 @@ export default function Signin() {
     handleLogin(userInfo.email, userInfo.password);
   };
 
-  useEffect(() => {
-    // we want to move our user to somewhere else
-    if (isLoggedIn) navigate("/");
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   // we want to move our user to somewhere else
+  //   if (isLoggedIn) navigate("/");
+  // }, [isLoggedIn]);
 
   return (
     <FormContainer>

@@ -6,13 +6,17 @@ import ForgetPassword from "./components/auth/ForgetPassword";
 import Signin from "./components/auth/Signin";
 import Signup from "./components/auth/Signup";
 import Home from "./components/Home";
+import AdminNavigation from "./components/navigation/AdminNavigation";
 import NotFound from "./components/NotFound";
 import Navbar from "./components/user/Navbar";
 import { useAuth } from "./hooks";
 
 export default function App() {
   const { authInfo } = useAuth();
-  console.log(authInfo);
+  const isAdmin = authInfo.profile?.role === "admin";
+
+  if (isAdmin) return <AdminNavigation />;
+
   return (
     <>
       <Navbar />
