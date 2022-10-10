@@ -1,17 +1,22 @@
 # bdigital restful API Backend
 
 ## Features
- - User
- - Send Email
+
+- User
+- Send Email
+- Showreel
+- Home
+- Contact
 
 ## Main tools
+
 - Node.js
 - MongoDB
 - Mongoose
 - Express
-- Concurrently
 
 ## Email
+
 - mailtrap.io
 - nodemailer
 
@@ -24,7 +29,9 @@ git clone -b develop https://github.com/deveyy/bdigital-backend.git
 cd bdigital-backend
 npm install
 ```
+
 - To start the server after installation, run
+
 ```bash
 npm run dev
 ```
