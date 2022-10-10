@@ -136,7 +136,6 @@ build
 .pnp.*
 
 #
-package-lock.json
 
 ### Node Patch ###
 # Serverless Webpack directories
