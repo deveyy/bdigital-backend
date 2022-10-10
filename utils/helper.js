@@ -33,29 +33,26 @@ const uploadImageToCloud = async (file) => {
   return { url, public_id };
 };
 
-const formatActor = (actor) => {
-  const { name, gender, about, _id, avatar, createdAt, updatedAt } = actor;
+const formatShowreel = (showreel) => {
+  const { name, timeline, url, about, _id, avatar } = showreel;
   return {
     id: _id,
     name,
     about,
-    gender,
+    timeline,
+    url,
     avatar: avatar?.url,
-    createdAt,
-    updatedAt,
   };
 };
 
-const parseData = (req, res, next) => {
-  const { trailer, cast, genres, tags, writers } = req.body;
-
-  if (trailer) req.body.trailer = JSON.parse(trailer);
-  if (cast) req.body.cast = JSON.parse(cast);
-  if (genres) req.body.genres = JSON.parse(genres);
-  if (tags) req.body.tags = JSON.parse(tags);
-  if (writers) req.body.writers = JSON.parse(writers);
-
-  next();
+const formatHome = (home) => {
+  const { image, title, url, _id } = home;
+  return {
+    id: _id,
+    title,
+    url,
+    image: image?.url,
+  };
 };
 
 const handleNotFound = (req, res) => {
@@ -66,7 +63,7 @@ export {
   sendError,
   generateRandomByte,
   handleNotFound,
-  formatActor,
+  formatShowreel,
   uploadImageToCloud,
-  parseData,
+  formatHome,
 };

@@ -10,6 +10,8 @@
     "MAILPORT",
     "MAILUSER",
     "middlewares",
+    "showreel",
+    "Showreels",
     "signin",
     "signup",
     "tailwindcss"

@@ -24,8 +24,8 @@ import connectDB from "./db/index.js";
 
 //routes
 import userRouter from "./routes/user.js";
-import actorRouter from "./routes/actor.js";
-import movieRouter from "./routes/movie.js";
+import showreelRouter from "./routes/showreel.js";
+import homeRouter from "./routes/home.js";
 
 //helper
 import { handleNotFound } from "./utils/helper.js";
@@ -43,8 +43,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 app.use("/api/user", userRouter);
-app.use("/api/actor", actorRouter);
-app.use("/api/movie", movieRouter);
+app.use("/api/showreel", showreelRouter);
+app.use("/api/home", homeRouter);
 
 app.use("/*", handleNotFound);
 

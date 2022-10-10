@@ -1,13 +1,12 @@
 /**
  * @author ddthien.dev
- * @date 2022-10-08
  * @contact
  * @email thiendinh.dev@gmail.com
  */
 
 import mongoose from "mongoose";
 
-const actorSchema = mongoose.Schema(
+const showreelSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -19,7 +18,12 @@ const actorSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
-    gender: {
+    url: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    timeline: {
       type: String,
       trim: true,
       required: true,
@@ -32,7 +36,7 @@ const actorSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-//search actor
-actorSchema.index({ name: "text" });
+//search showreel
+showreelSchema.index({ name: "text" });
 
-export default mongoose.model("Actor", actorSchema);
+export default mongoose.model("Showreel", showreelSchema);
