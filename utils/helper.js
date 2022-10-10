@@ -1,6 +1,5 @@
 /**
  * @author ddthien.dev
- * @date 2022-10-07
  * @contact
  * @email thiendinh.dev@gmail.com
  */
