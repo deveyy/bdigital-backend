@@ -1,6 +1,5 @@
 /**
  * @author ddthien.dev
- * @date 2022-10-06
  * @contact
  * @email thiendinh.dev@gmail.com
  */
@@ -26,6 +25,7 @@ import connectDB from "./db/index.js";
 import userRouter from "./routes/user.js";
 import showreelRouter from "./routes/showreel.js";
 import homeRouter from "./routes/home.js";
+import contactRouter from "./routes/contact.js";
 
 //helper
 import { handleNotFound } from "./utils/helper.js";
@@ -45,6 +45,7 @@ if (process.env.NODE_ENV !== "production") {
 app.use("/api/user", userRouter);
 app.use("/api/showreel", showreelRouter);
 app.use("/api/home", homeRouter);
+app.use("/api/contact", contactRouter);
 
 app.use("/*", handleNotFound);
 

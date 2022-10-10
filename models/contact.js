@@ -7,17 +7,17 @@
 import mongoose from "mongoose";
 
 const contactSchema = mongoose.Schema({
-  image: {
-    type: Object,
-    url: String,
-    public_id: String,
-  },
   title: {
     type: String,
     trim: true,
     required: true,
   },
   about: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  url: {
     type: String,
     trim: true,
     required: true,

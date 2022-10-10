@@ -1,6 +1,5 @@
 /**
  * @author ddthien.dev
- * @date 2022-10-07
  * @contact
  * @email thiendinh.dev@gmail.com
  */
@@ -55,6 +54,17 @@ const formatHome = (home) => {
   };
 };
 
+const formatContact = (contact) => {
+  const { title, about, url, phone, _id } = contact;
+  return {
+    id: _id,
+    title,
+    about,
+    url,
+    phone,
+  };
+};
+
 const handleNotFound = (req, res) => {
   this.sendError(res, "Not found", 404);
 };
@@ -66,4 +76,5 @@ export {
   formatShowreel,
   uploadImageToCloud,
   formatHome,
+  formatContact,
 };
