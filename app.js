@@ -19,7 +19,7 @@ import { errorHandler } from "./middlewares/error.js";
 dotenv.config();
 
 //connect db
-import connectDB from "./db/index.js";
+import connectDB from "./database/index.js";
 
 //routes
 import userRouter from "./routes/user.js";
@@ -57,7 +57,7 @@ const port = process.env.PORT || 5000;
 //server
 const start = async () => {
   try {
-    await connectDB(process.env.DATABASE_URL);
+    connectDB();
     app.listen(port, () => {
       console.log(`Server is listening on port ${port}...`);
     });
