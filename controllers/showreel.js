@@ -5,18 +5,12 @@ import {
   sendError,
   uploadImageToCloud,
 } from "../utils/helper.js";
-import cloudinary from "../config/cloudinary.js";
 
 const createShowreel = async (req, res) => {
   const { name, about, timeline, url } = req.body;
-  const { file } = req;
 
   const newShowreel = new Showreel({ name, about, timeline, url });
 
-  if (file) {
-    const { url, public_id } = await uploadImageToCloud(file.path);
-    newShowreel.avatar = { url, public_id };
-  }
   await newShowreel.save();
 
   res.status(201).json(formatShowreel(newShowreel));
@@ -41,20 +35,6 @@ const updateShowreel = async (req, res) => {
     return sendError(res, "Invalid request, record not found!");
   }
 
-  const public_id = showreel.avatar?.public_id;
-  // remove old image if there was one!
-  if (public_id && file) {
-    const { result } = await cloudinary.v2.uploader.destroy(public_id);
-    if (result !== "ok") {
-      return sendError(res, "Cloud not remove image from cloud!");
-    }
-  }
-  // upload new avatar if there is one!
-  if (file) {
-    const { url, public_id } = await uploadImageToCloud(file.path);
-    showreel.avatar = { url, public_id };
-  }
-
   showreel.name = name;
   showreel.about = about;
   showreel.timeline = timeline;
@@ -72,16 +52,6 @@ const deleteShowreel = async (req, res) => {
 
   const showreel = await Showreel.findById(showreelId);
   if (!showreel) return sendError(res, "Invalid request, record not found!");
-
-  const public_id = showreel.avatar?.public_id;
-
-  // remove old image if there was one!
-  if (public_id) {
-    const { result } = await cloudinary.uploader.destroy(public_id);
-    if (result !== "ok") {
-      return sendError(res, "Could not remove image from cloud!");
-    }
-  }
 
   await Showreel.findByIdAndDelete(showreelId);
 

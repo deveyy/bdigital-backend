@@ -33,24 +33,22 @@ const uploadImageToCloud = async (file) => {
 };
 
 const formatShowreel = (showreel) => {
-  const { name, timeline, url, about, _id, avatar } = showreel;
+  const { name, timeline, url, about, _id } = showreel;
   return {
     id: _id,
     name,
     about,
     timeline,
-    url,
-    avatar: avatar?.url,
+    url
   };
 };
 
 const formatHome = (home) => {
-  const { image, title, url, _id } = home;
+  const { title, url, _id } = home;
   return {
     id: _id,
     title,
-    url,
-    image: image?.url,
+    url
   };
 };
 
@@ -61,7 +59,7 @@ const formatContact = (contact) => {
     title,
     about,
     url,
-    phone,
+    phone
   };
 };
 
