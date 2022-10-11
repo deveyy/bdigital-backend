@@ -18,7 +18,7 @@ const showreelSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
-    url: {
+    embedId: {
       type: String,
       trim: true,
       required: true,

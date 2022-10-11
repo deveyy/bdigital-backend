@@ -33,13 +33,13 @@ const uploadImageToCloud = async (file) => {
 };
 
 const formatShowreel = (showreel) => {
-  const { name, timeline, url, about, _id } = showreel;
+  const { name, timeline, embedId, about, _id } = showreel;
   return {
     id: _id,
     name,
     about,
     timeline,
-    url
+    embedId
   };
 };
 

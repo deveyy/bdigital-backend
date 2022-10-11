@@ -49,7 +49,7 @@ const showreelInfoValidator = [
     .not()
     .isEmpty()
     .withMessage("Timeline is a required field!"),
-  check("url").trim().not().isEmpty().withMessage("url is a required field!"),
+  check("embedId").trim().not().isEmpty().withMessage("embedId is a required field!"),
 ];
 
 const validate = (req, res, next) => {
