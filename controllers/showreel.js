@@ -7,9 +7,9 @@ import {
 } from "../utils/helper.js";
 
 const createShowreel = async (req, res) => {
-  const { name, about, timeline, url } = req.body;
+  const { name, about, timeline, embedId } = req.body;
 
-  const newShowreel = new Showreel({ name, about, timeline, url });
+  const newShowreel = new Showreel({ name, about, timeline, embedId });
 
   await newShowreel.save();
 
@@ -22,8 +22,7 @@ const createShowreel = async (req, res) => {
 // no.2 - if yes then remove old image before uploading new image / avatar
 
 const updateShowreel = async (req, res) => {
-  const { name, about, timeline, url } = req.body;
-  const { file } = req;
+  const { name, about, timeline, embedId } = req.body;
   const { showreelId } = req.params;
 
   if (!isValidObjectId(showreelId)) {
@@ -38,7 +37,7 @@ const updateShowreel = async (req, res) => {
   showreel.name = name;
   showreel.about = about;
   showreel.timeline = timeline;
-  showreel.url = url;
+  showreel.embedId = embedId;
 
   await showreel.save();
 
