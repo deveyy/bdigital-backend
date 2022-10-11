@@ -7,11 +7,6 @@
 import mongoose from "mongoose";
 
 const homeSchema = mongoose.Schema({
-  image: {
-    type: Object,
-    url: String,
-    public_id: String,
-  },
   title: {
     type: String,
     trim: true,

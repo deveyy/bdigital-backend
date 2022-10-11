@@ -27,12 +27,7 @@ const showreelSchema = mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-    },
-    avatar: {
-      type: Object,
-      url: String,
-      public_id: String,
-    },
+    }
   },
   { timestamps: true }
 );
