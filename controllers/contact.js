@@ -3,14 +3,14 @@ import Contact from "../models/contact.js";
 import { formatContact, sendError } from "../utils/helper.js";
 
 const createContact = async (req, res) => {
-  const { title, about, url, phone } = req.body;
-  const newContact = new Contact({ title, about, url, phone });
+  const { title, about, facebook, youtube , phone, address } = req.body;
+  const newContact = new Contact({ title, about, facebook, youtube, phone, address });
   await newContact.save();
   res.status(201).json(formatContact(newContact));
 };
 
 const updateContact = async (req, res) => {
-  const { title, about, url, phone } = req.body;
+  const { title, about, facebook, youtube , phone, address } = req.body;
   const { contactId } = req.params;
   if (!isValidObjectId(contactId)) {
     return sendError(res, "Invalid request");
@@ -22,7 +22,9 @@ const updateContact = async (req, res) => {
 
   contact.title = title;
   contact.about = about;
-  contact.url = url;
+  contact.facebook = facebook;
+  contact.youtube = youtube;
+  contact.address = address;
   contact.phone = phone;
 
   await contact.save();

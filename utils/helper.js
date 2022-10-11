@@ -53,12 +53,14 @@ const formatHome = (home) => {
 };
 
 const formatContact = (contact) => {
-  const { title, about, url, phone, _id } = contact;
+  const { title, about, youtube, facebook, address ,phone, _id } = contact;
   return {
     id: _id,
     title,
     about,
-    url,
+    youtube,
+    facebook,
+    address,
     phone
   };
 };

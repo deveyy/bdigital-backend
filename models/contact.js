@@ -17,16 +17,23 @@ const contactSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
-  url: {
+  facebook: {
     type: String,
     trim: true,
-    required: true,
+  },
+  youtube: {
+    type: String,
+    trim: true,
   },
   phone: {
     type: String,
     trim: true,
     required: true,
   },
+  address: {
+    type: String,
+    trim: true
+  }
 });
 
 export default mongoose.model("Contact", contactSchema);
