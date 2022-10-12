@@ -175,9 +175,8 @@ const forgetPassword = async (req, res) => {
     token,
   });
   await newPasswordResetToken.save();
-  const CLIENT_URL = process.env.CLIENT_URL;
 
-  const resetPasswordUrl = `${CLIENT_URL}/auth/reset-password?token=${token}&id=${user._id}`;
+  const resetPasswordUrl = `https://api.bdigital.vn/auth/reset-password?token=${token}&id=${user._id}`;
 
   const transport = await generateMailTransporter();
 
